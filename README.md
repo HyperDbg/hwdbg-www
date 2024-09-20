@@ -6,6 +6,6 @@ Make sure to not delete the following files and folders on the next commit :
 - generate.html
 - CNAME
 - LICENSE
-- LICENSE
+- README.md
 
 **Note**: Don't forget to update API using `sbt doc` command.
