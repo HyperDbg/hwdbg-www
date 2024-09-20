@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuration Form</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+      /* Reset styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* Indent the port list items */
+      #port_pins_list li {
+        margin-top: 10px;
+        margin-left: 20px;
+      }
+
+      /* Base styles */
+      body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f8f9fa;
+        padding: 20px;
+        color: #343a40;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .logo {
+        display: block;
+        max-width: 300px;
+        margin: 0 auto 20px;
+        transition: opacity 0.3s ease;
+      }
+
+      .form-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .form-section {
+        margin-bottom: 30px;
+      }
+
+      .form-section h3 {
+        margin-bottom: 15px;
+        font-size: 1.2rem;
+        color: #007bff;
+        border-bottom: 2px solid #007bff;
+        padding-bottom: 5px;
+      }
+
+      .checkbox-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+      }
+
+      .checkbox-container input[type="checkbox"] {
+        margin-right: 10px;
+      }
+
+      input[type="number"],
+      select,
+      .checkbox-group {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        font-size: 1rem;
+        background-color: #f8f9fa;
+      }
+
+      input[type="checkbox"] {
+        margin-right: 10px;
+      }
+
+      input:focus,
+      select:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+      }
+
+      .tooltip {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        text-align: center;
+        border-radius: 50%;
+        background-color: #007bff;
+        color: white;
+        font-size: 14px;
+        cursor: pointer;
+        position: relative;
+        margin-left: 5px;
+      }
+
+      .tooltip:hover::after {
+        content: attr(data-description);
+        display: block;
+        position: absolute;
+        background-color: #333;
+        color: white;
+        padding: 5px;
+        border-radius: 4px;
+        font-size: 12px;
+        margin-top: 5px;
+        white-space: nowrap;
+        z-index: 10;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 12px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+        font-size: 1rem;
+        transition: background-color 0.3s;
+        margin-bottom: 10px;
+        /* Add space between buttons */
+        display: block;
+        /* Ensure the buttons are displayed in a block format (full width) */
+        width: 100%;
+        /* Makes buttons full-width on mobile */
+        box-sizing: border-box;
+        /* Ensure padding and border don't affect the width */
+      }
+
+      .btn:hover {
+        background-color: #0056b3;
+      }
+
+      .fade-message {
+        margin-top: 10px;
+        margin-left: 10px;
+        color: #007bff;
+        /* Change color as needed */
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        width: auto;
+        padding: 5px;
+        white-space: nowrap;
+        /* Prevent text from wrapping */
+        overflow: hidden;
+        /* Prevent overflow issues */
+      }
+
+      .fade-in {
+        opacity: 1;
+      }
+
+      .output {
+        white-space: pre-wrap;
+        background-color: #e9ecef;
+        overflow: auto;
+        /* Enable scrolling */
+        max-height: 300px;
+        /* Limit height */
+        padding: 15px;
+        border-radius: 5px;
+        margin-top: 20px;
+        font-family: monospace;
+        font-size: 0.9rem;
+      }
+
+      /* Dark/Light mode toggle styles */
+      .theme-toggle {
+        margin: 20px auto;
+        /* Center horizontally and add margin */
+        text-align: center;
+        /* Ensure the icon is centered */
+        font-size: 30px;
+        /* Adjust the size as needed */
+      }
+
+      /* Dark mode styles */
+      body.dark-mode {
+        background-color: #343a40;
+        color: #f8f9fa;
+      }
+
+      body.dark-mode input,
+      body.dark-mode select {
+        background-color: #495057;
+        color: white;
+      }
+
+      body.dark-mode .form-container {
+        background-color: #495057;
+      }
+
+      label {
+        display: block;
+        margin: 5px 0;
+        /* Adds 10px margin above and below the label */
+      }
+
+      .output {
+        background-color: #f0f0f0;
+        /* Light background in light mode */
+        color: #000;
+        /* Black text color in light mode */
+        padding: 10px;
+        margin-top: 10px;
+        border-radius: 5px;
+        font-family: monospace;
+        white-space: pre-wrap;
+      }
+
+      body.dark-mode .output {
+        background-color: #2e2e2e;
+        /* Dark background in dark mode */
+        color: #fff;
+        /* White text color in dark mode */
+      }
+
+      /* Responsive styles */
+      @media (max-width: 768px) {
+        .form-container {
+          padding: 15px;
+        }
+
+        input,
+        select {
+          font-size: 0.9rem;
+          padding: 8px;
+        }
+
+        .btn {
+          padding: 10px 15px;
+          font-size: 0.9rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Logo -->
+    <img id="logo" class="logo" src="https://raw.githubusercontent.com/HyperDbg/graphics/refs/heads/master/Logos/hwdbg/hwdbg-high-resolution-logo-transparent-cropped.png" alt="Logo" />
+    <h1>Generate a synthesizable hwdbg debugger online!</h1>
+    <!-- Theme Toggle Icon -->
+    <div class="theme-toggle" onclick="toggleTheme()">
+      <i id="theme-icon" class="fas fa-moon"></i>
+      <!-- Initial icon -->
+    </div>
+    <div class="form-container">
+      <!-- Version Section -->
+      <div class="form-section">
+        <h3>Version</h3>
+        <label for="version_major">Version (MAJOR) <span class="tooltip" data-description="The major version number.">?</span>
+        </label>
+        <input type="number" id="version_major" min="0" value="0">
+        <label for="version_minor">Version (MINOR) <span class="tooltip" data-description="The minor version number.">?</span>
+        </label>
+        <input type="number" id="version_minor" min="0" value="2">
+        <label for="version_patch">Version (PATCH) <span class="tooltip" data-description="The patch version number.">?</span>
+        </label>
+        <input type="number" id="version_patch" min="0" value="0">
+      </div>
+      <!-- Debugger Configurations Section -->
+      <div class="form-section">
+        <h3>Debugger Configurations</h3>
+        <label for="enable_debug">Enable Debug <span class="tooltip" data-description="Enable or disable debugging.">?</span>
+        </label>
+        <select id="enable_debug">
+          <option value="true">True</option>
+          <option value="false">False</option>
+        </select>
+        <label for="number_of_pins">Number of Pins <span class="tooltip" data-description="The number of debug pins.">?</span>
+        </label>
+        <input type="number" id="number_of_pins" min="1" value="32">
+        <!-- Updated Port Pins Map Section -->
+        <label for="port_pins_map">Pins to Ports (Mappings) <span class="tooltip" data-description="List of port pins mapped.">?</span>
+        </label>
+        <div id="port_pins_container">
+          <input type="number" id="port_pins_map_input" min="1" value="1">
+          <br></br>
+          <button type="button" class="btn" id="add_port_pin" onclick="addPortPin()">Add +</button>
+        </div>
+        <ul id="port_pins_list"></ul>
+      </div>
+      <!-- Script Engine Configurations Section -->
+      <div class="form-section">
+        <h3>Script Engine Configurations</h3>
+        <label for="max_stages">Maximum Number of Stages <span class="tooltip" data-description="Maximum number of script stages.">?</span>
+        </label>
+        <input type="number" id="max_stages" min="1" value="32">
+        <label for="max_get_ops">Maximum Number of Supported GET Script Operators <span class="tooltip" data-description="Maximum number of supported get script operators.">?</span>
+        </label>
+        <input type="number" id="max_get_ops" min="1" value="2">
+        <label for="max_set_ops">Maximum Number of Supported SET Script Operators <span class="tooltip" data-description="Maximum number of supported set script operators.">?</span>
+        </label>
+        <input type="number" id="max_set_ops" min="1" value="1">
+        <label for="script_var_length">Script Variable Length <span class="tooltip" data-description="Length of the script variable.">?</span>
+        </label>
+        <input type="number" id="script_var_length" min="1" value="8">
+        <label for="num_local_global_vars">Number of Supported Local and Global Variables <span class="tooltip" data-description="Number of supported local and global variables.">?</span>
+        </label>
+        <input type="number" id="num_local_global_vars" min="1" value="2">
+        <label for="num_temp_vars">Number of Supported Temporary Variables <span class="tooltip" data-description="Number of supported temporary variables.">?</span>
+        </label>
+        <input type="number" id="num_temp_vars" min="1" value="2">
+        <label for="eval_capabilities">Script Engine Evaluation Capabilities <span class="tooltip" data-description="Supported script engine evaluation capabilities.">?</span>
+        </label>
+        <div id="eval_capabilities_container"></div>
+      </div>
+      <!-- Memory Communication Configurations Section -->
+      <div class="form-section">
+        <h3>Memory Communication Configurations</h3>
+        <label for="ram_addr_width">Block RAM (BRAM) Address Width <span class="tooltip" data-description="Address width of block RAM.">?</span>
+        </label>
+        <input type="number" id="ram_addr_width" min="1" value="13">
+        <label for="ram_data_width">Block RAM (BRAM) Data Width <span class="tooltip" data-description="Data width of block RAM.">?</span>
+        </label>
+        <input type="number" id="ram_data_width" min="1" value="32">
+        <label for="enable_ram_delay">Enable Block RAM (BRAM) Delay <span class="tooltip" data-description="Enable block RAM delay.">?</span>
+        </label>
+        <select id="enable_ram_delay">
+          <option value="true">True</option>
+          <option value="false">False</option>
+        </select>
+        <label for="memory_size">Default Initialized Memory Size <span class="tooltip" data-description="Default initialized memory size.">?</span>
+        </label>
+        <input type="number" id="memory_size" min="1" value="1024">
+        <label for="ps_to_pl_comm">Base Address for PS to PL Communication <span class="tooltip" data-description="Base address for PS to PL communication.">?</span>
+        </label>
+        <input type="number" id="ps_to_pl_comm" min="0" value="0">
+        <label for="pl_to_ps_comm">Base Address for PL to PS Communication <span class="tooltip" data-description="Base address for PL to PS communication.">?</span>
+        </label>
+        <input type="number" id="pl_to_ps_comm" min="0" value="512">
+      </div>
+      <button class="btn" onclick="generateJSON()">Generate Config (JSON)</button>
+      <button class="btn" id="copy-button" onclick="copyToClipboard()">Copy to Clipboard!</button>
+      <button class="btn" id="download-button" onclick="downloadHwdbg()">Download HDL Files</button>
+      <div id="copy-message" class="fade-message"></div>
+      <div class="output" id="output"></div>
+      <script>
+        const capabilities = ['assign_local_global_var', 'assign_registers', 'conditional_statements_and_comparison_operators', 'stack_assignments', 'func_or', 'func_xor', 'func_and', 'func_asl', 'func_add', 'func_sub', 'func_mul', 'func_gt', 'func_lt', 'func_egt', 'func_elt', 'func_equal', 'func_neq', 'func_jmp', 'func_jz', 'func_jnz', 'func_mov'];
+        let portPins = [];
+        window.onload = function() {
+          const container = document.getElementById('eval_capabilities_container');
+          capabilities.forEach(capability => {
+            const checkboxContainer = document.createElement('div');
+            checkboxContainer.className = 'checkbox-container';
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = capability;
+            checkbox.value = capability;
+            const label = document.createElement('label');
+            label.htmlFor = capability;
+            label.textContent = capability.replaceAll('_', ' ');
+            checkboxContainer.appendChild(checkbox);
+            checkboxContainer.appendChild(label);
+            container.appendChild(checkboxContainer);
+          });
+        };
+        // Function to add a new port pin value
+        function addPortPin() {
+          const portPinInput = document.getElementById('port_pins_map_input');
+          const portPinValue = parseInt(portPinInput.value);
+          if (!isNaN(portPinValue)) {
+            portPins.push(portPinValue);
+            updatePortPinsList();
+            portPinInput.value = ''; // Reset the input
+          }
+        }
+        // Function to update the displayed list of port pins
+        function updatePortPinsList() {
+          const portPinsList = document.getElementById('port_pins_list');
+          portPinsList.innerHTML = ''; // Clear the list before updating
+          portPins.forEach((pin, index) => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `Port ${index} (@hw_port${index}): ${pin}`;
+            portPinsList.appendChild(listItem);
+          });
+        }
+        // Modified generateJSON function to include dynamic port pins
+        function generateJSON() {
+          const selectedCapabilities = capabilities.filter(capability => {
+            return document.getElementById(capability).checked;
+          });
+          const version = {
+            VERSION_MAJOR: parseInt(document.getElementById('version_major').value),
+            VERSION_MINOR: parseInt(document.getElementById('version_minor').value),
+            VERSION_PATCH: parseInt(document.getElementById('version_patch').value),
+          };
+          const debuggerConfigurations = {
+            ENABLE_DEBUG: document.getElementById('enable_debug').value === 'true',
+            NUMBER_OF_PINS: parseInt(document.getElementById('number_of_pins').value),
+            PORT_PINS_MAP: portPins, // Using the dynamic port pins
+          };
+          const scriptEngineConfigurations = {
+            MAXIMUM_NUMBER_OF_STAGES: parseInt(document.getElementById('max_stages').value),
+            SCRIPT_ENGINE_EVAL_CAPABILITIES: selectedCapabilities
+          };
+          const memoryCommunicationConfigurations = {
+            BLOCK_RAM_ADDR_WIDTH: parseInt(document.getElementById('ram_addr_width').value),
+            BLOCK_RAM_DATA_WIDTH: parseInt(document.getElementById('ram_data_width').value),
+            ENABLE_BLOCK_RAM_DELAY: document.getElementById('enable_ram_delay').value === 'true',
+            DEFAULT_CONFIGURATION_INITIALIZED_MEMORY_SIZE: parseInt(document.getElementById('memory_size').value),
+            BASE_ADDRESS_OF_PS_TO_PL_COMMUNICATION: parseInt(document.getElementById('ps_to_pl_comm').value),
+            BASE_ADDRESS_OF_PL_TO_PS_COMMUNICATION: parseInt(document.getElementById('pl_to_ps_comm').value),
+          };
+          const configJSON = {
+            Version: version,
+            DebuggerConfigurations: debuggerConfigurations,
+            ScriptEngineConfigurations: scriptEngineConfigurations,
+            MemoryCommunicationConfigurations: memoryCommunicationConfigurations,
+          };
+          document.getElementById('output').textContent = JSON.stringify(configJSON, null, 2);
+        }
+
+        function copyToClipboard() {
+          const outputText = document.getElementById('output').textContent;
+          const messageDiv = document.getElementById('copy-message');
+          if (outputText.trim() === '') {
+            messageDiv.textContent = 'Error: Output is empty!';
+            messageDiv.classList.add('fade-in');
+            // Fade out after 2 seconds
+            setTimeout(() => {
+              messageDiv.classList.remove('fade-in');
+            }, 2000);
+            return; // Exit the function if output is empty
+          }
+          navigator.clipboard.writeText(outputText).then(() => {
+            messageDiv.textContent = 'Copied to clipboard!';
+            messageDiv.classList.add('fade-in');
+            // Fade out after 2 seconds
+            setTimeout(() => {
+              messageDiv.classList.remove('fade-in');
+            }, 2000);
+          }).catch(err => {
+            messageDiv.textContent = 'Error: Unable to copy to clipboard :(';
+            messageDiv.classList.add('fade-in');
+            // Fade out after 2 seconds
+            setTimeout(() => {
+              messageDiv.classList.remove('fade-in');
+            }, 2000);
+          });
+        }
+
+        function downloadHwdbg() {
+          alert('Not yet supported!');
+        }
+
+        function toggleTheme() {
+          const body = document.body;
+          body.classList.toggle('dark-mode');
+          const themeIcon = document.getElementById('theme-icon');
+          const logo = document.getElementById('logo');
+          if (body.classList.contains('dark-mode')) {
+            themeIcon.classList.remove('fa-sun');
+            themeIcon.classList.add('fa-moon');
+            logo.src = 'https://raw.githubusercontent.com/HyperDbg/graphics/refs/heads/master/Logos/hwdbg/hwdbg-high-resolution-logo-white-transparent-cropped.png';
+          } else {
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+            logo.src = 'https://raw.githubusercontent.com/HyperDbg/graphics/refs/heads/master/Logos/hwdbg/hwdbg-high-resolution-logo-transparent-cropped.png';
+          }
+        }
+      </script>
+  </body>
+</html>
